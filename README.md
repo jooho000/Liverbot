@@ -9,6 +9,7 @@ Los gremios y personajes se **guardan de forma persistente**, por lo que el prog
 ✅ **Sistema de Gremios** → Crea, únete y gestiona gremios  
 ✅ **Batallas & Eventos** → Enfréntate a enemigos, descansa en posadas y gana recompensas  
 ✅ **Generador de Builds** → Obtén una build aleatoria de League of Legends  
+✅ **Sistema de Bienvenida** → Genera tarjetas personalizadas para nuevos miembros  
 ✅ **Datos Persistentes** → Los personajes y gremios se guardan en JSON  
 ✅ **Juego Personalizable** → Modifica la lógica del juego fácilmente  
 
@@ -18,7 +19,7 @@ Los gremios y personajes se **guardan de forma persistente**, por lo que el prog
 ### **1️⃣ Instalar Dependencias**
 Asegúrate de tener Python instalado y luego ejecuta:
 ```sh
-pip install discord json requests
+pip install discord json requests pillow
 ```
 
 ### **2️⃣ Configurar Variables de Entorno**
@@ -39,10 +40,11 @@ python3 bot.py
 ---
 
 ## **🎮 Guía de Comandos**
-El bot tiene tres sistemas principales:  
+El bot tiene cuatro sistemas principales:  
 **1️⃣ Sistema RPG** (Creación de personajes, Batallas, Descanso)  
 **2️⃣ Sistema de Gremios** (Creación, Gestión e Información de Gremios)  
 **3️⃣ Generador de Builds** (League of Legends)  
+**4️⃣ Sistema de Bienvenida** (Tarjetas de bienvenida personalizadas)  
 
 ---
 
@@ -54,14 +56,6 @@ El bot tiene tres sistemas principales:
 | `!rpg <nombre_de_personaje> aventura` | Ir de aventura (batallas o encontrar objetos) |
 | `!rpg <nombre_de_personaje> descansar` | Descansa en una posada (restaura HP, cuesta oro) |
 
-**💡 Ejemplo de Uso:**
-```sh
-!rpg MiPersonaje crear
-!rpg MiPersonaje stats
-!rpg MiPersonaje aventura
-!rpg MiPersonaje descansar
-```
-
 ---
 
 ### **🏰 2️⃣ Comandos del Sistema de Gremios**
@@ -72,14 +66,6 @@ El bot tiene tres sistemas principales:
 | `!guild <nombre_de_personaje> salir` | Sal del gremio |
 | `!guild <nombre_del_gremio> info` | Muestra los miembros del gremio |
 
-**💡 Ejemplo de Uso:**
-```sh
-!guild Dragones crear
-!guild MiPersonaje unirse Dragones
-!guild Dragones info
-!guild MiPersonaje salir
-```
-
 ---
 
 ### **⚔️ 3️⃣ Comando de Generador de Builds**
@@ -87,25 +73,40 @@ El bot tiene tres sistemas principales:
 |---------|-------------|
 | `!build` | Genera una build aleatoria de League of Legends |
 
-**💡 Ejemplo de Uso:**
+---
+
+### **👋 4️⃣ Sistema de Bienvenida**
+El bot **da la bienvenida automáticamente** a los nuevos miembros del servidor enviando una imagen personalizada con su **nombre y avatar**.  
+
+📌 **Ejemplo de imagen generada:**
+```
+🎉 ¡Bienvenido, MiembroNuevo!
+```
+_(Imagen personalizada con su avatar y un fondo de bienvenida)_
+
+#### **🔹 Comando de Prueba**
+Puedes probar la función de bienvenida con:
 ```sh
-!build
+!test_welcome
 ```
-**Respuesta del Bot:**
+**Respuesta del Bot:**  
+_(Envía una tarjeta de bienvenida con una imagen de prueba)_
+
+#### **📌 Configuración del Canal de Bienvenida**
+Para que el bot funcione correctamente, asegúrate de que:
+1. **El bot tiene permisos para enviar mensajes e imágenes** en el canal de bienvenida.
+2. **Se define el canal de bienvenida** en `bot.py` (puedes encontrar el `channel_id` en Discord).
+
+Si no estás seguro del **ID del canal**, usa este comando en Discord (Modo Desarrollador activado):
 ```
-🛡️ Build Aleatoria para League of Legends:
-- Fuerza de la Naturaleza
-- El Tormento de Liandry
-- Filo de la Noche
-- Arcoescudo Inmortal
-- Jak'Sho, el Proteico
-- Botas de Mercurio
+/channelid
 ```
+O puedes obtenerlo haciendo clic derecho en el canal y seleccionando **"Copiar ID"**.
 
 ---
 
 ## **📂 Estructura de Archivos & Almacenamiento de Datos**
-El bot **guarda automáticamente todos los personajes y gremios** para asegurarse de que **el progreso no se pierda** si el bot se reinicia.
+El bot **guarda automáticamente todos los personajes, gremios y builds**, así como las imágenes de bienvenida.
 
 ```
 📦 RPG-Bot/
@@ -113,61 +114,11 @@ El bot **guarda automáticamente todos los personajes y gremios** para asegurars
  ┃ ┣ 📜 characters.json   # Guarda las estadísticas de los personajes
  ┃ ┣ 📜 guilds.json       # Guarda la información de los gremios
  ┃ ┣ 📜 items.json        # Guarda los ítems de League of Legends
+ ┃ ┣ 📜 welcome_background.jpg  # Imagen de fondo para la bienvenida
  ┣ 📜 bot.py              # Lógica principal del bot de Discord
  ┣ 📜 rpg_game.py         # Mecánicas del juego RPG
+ ┣ 📜 image_generator.py  # Generación de imágenes de bienvenida
  ┣ 📜 README.md           # Instrucciones y guía de uso
-```
-
-| Tipo de Datos | Archivo |
-|--------------|---------|
-| Personajes | `data/characters.json` |
-| Gremios | `data/guilds.json` |
-| Ítems de LoL | `data/items.json` |
-
-Si el bot **se detiene**, todos los personajes, gremios y builds **seguirán guardados**.
-
----
-
-## **📌 Ejemplo de Juego**
-### **1️⃣ Creando un Personaje**
-```sh
-!rpg MiPersonaje crear
-```
-**Respuesta del Bot:**
-```
-✅ Personaje creado:
-🧙 MiPersonaje
-⭐ Nivel: 1
-❤️ HP: 500/500
-⚔️ Poder: 30
-💰 Oro: 200
-📈 EXP: 0
-🎒 Items: Ninguno
-🏰 Gremio: Ninguno
-```
-
-### **2️⃣ Ir de Aventura**
-```sh
-!rpg MiPersonaje aventura
-```
-**Posibles Resultados:**
-- 🏆 **Encuentras un cofre con tesoro!**
-- ⚔️ **Peleas contra un goblin!**
-- 🔥 **Te encuentras con un jefe poderoso!**
-
-### **3️⃣ Generar una Build de LoL**
-```sh
-!build
-```
-**Respuesta del Bot:**
-```
-🛡️ Build Aleatoria para League of Legends:
-- Fuerza de la Naturaleza
-- El Tormento de Liandry
-- Filo de la Noche
-- Arcoescudo Inmortal
-- Jak'Sho, el Proteico
-- Botas de Mercurio
 ```
 
 ---

@@ -4,6 +4,7 @@ import random
 import discord
 from discord.ext import commands
 from rpg_game import handleRequest, handle_guild_request
+from image_generator import create_welcome_image
 
 # Load bot token
 DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -12,11 +13,40 @@ DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
+intents.members = True  # Required to detect new members
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
     print(f"✅ El bot está en línea como {bot.user}")
+
+@bot.event
+async def on_member_join(member):
+    """Handles new members joining the server and sends a welcome image"""
+    print(f"📢 Nuevo miembro detectado: {member.name}")  # Debugging message
+
+    WELCOME_CHANNEL_ID = 1342798289401151488  # Replace with your actual welcome channel ID
+    channel = bot.get_channel(WELCOME_CHANNEL_ID)
+
+    if not channel:
+        print("❌ No se encontró el canal de bienvenida. Verifica el ID.")
+        return
+    
+    # Get the user's avatar
+    avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
+
+    # Generate the welcome image
+    image = create_welcome_image(member.name, avatar_url)
+
+    try:
+        await channel.send(
+            f"¡Bienvenido a la comunidad, {member.mention}! 🎉", 
+            file=discord.File(image, "welcome.png")
+        )
+        print("✅ Mensaje de bienvenida enviado correctamente.")
+    except Exception as e:
+        print(f"❌ Error enviando mensaje de bienvenida: {e}")
+
 
 @bot.command()
 async def rpg(ctx, name: str, command: str, *args):
@@ -76,5 +106,15 @@ async def build(ctx):
 
     await ctx.send(build_message)
 
+@bot.command()
+async def test_channel(ctx):
+    """Test if the bot can send messages in the welcome channel"""
+    WELCOME_CHANNEL_ID = 1342798289401151488
+    channel = bot.get_channel(WELCOME_CHANNEL_ID)
+    if channel:
+        await channel.send("✅ Este es el canal de bienvenida.")
+    else:
+        await ctx.send("❌ No se pudo encontrar el canal de bienvenida. Verifica el ID.")
+        
 # Run the bot
 bot.run(DISCORD_TOKEN)
