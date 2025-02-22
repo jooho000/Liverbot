@@ -3,6 +3,7 @@ import json
 import random
 import discord
 from discord.ext import commands
+from scraper import scrape_comps
 from rpg_game import handleRequest, handle_guild_request
 from image_generator import create_welcome_image
 
@@ -122,6 +123,37 @@ async def test_channel(ctx):
         await channel.send("✅ Este es el canal de bienvenida.")
     else:
         await ctx.send("❌ No se pudo encontrar el canal de bienvenida. Verifica el ID.")
+
+@bot.command()
+async def TFT(ctx):
+    """Fetches compositions and sends them as a Discord message."""
+    comps_data = scrape_comps(limit=5)
+
+    if "error" in comps_data[0]:  # If there's an error
+        await ctx.send(f"❌ **Error:** {comps_data[0]['error']}")
+        return
+
+    # Start message with a nice header
+    message = "**🔹 Teamfight Tactics Compositions 🔹**\n\n"
+
+    for idx, comp in enumerate(comps_data, start=1):
+        comp_name = comp["composition"]
+        units = comp["units"]
+
+        # 🔹 Composition Title
+        message += f"➖➖➖➖➖➖➖➖➖➖\n"
+        message += f"**🛡️ {idx}. {comp_name}**\n"
+        message += f"➖➖➖➖➖➖➖➖➖➖\n"
+
+        # ⚔️ Champions (Each champion on a new line with emojis)
+        message += "**⚔️ Champions:**\n"
+        for champ in units:
+            message += f"🔹 {champ}\n"
+
+        # Add spacing between compositions
+        message += "\n"
+
+    await ctx.send(message)
         
 # Run the bot
 bot.run(DISCORD_TOKEN)
