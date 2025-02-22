@@ -124,6 +124,7 @@ async def ayuda(ctx):
         "`!descargar` - 🔗 Obtén el código fuente en GitHub.\n\n"
 
         "**ℹ️ Otros Comandos:**\n"
+        "`!test_channel` - ✅ Verifica tu canal de bienvenida.\n"
         "`!ayuda` - 📖 Muestra esta lista de comandos.\n"
     )
     await ctx.send(mensaje_ayuda)
@@ -193,6 +194,27 @@ async def descargar(ctx):
     """Envía el enlace del código fuente en GitHub."""
     await ctx.send("🔗 Puedes descargar el código fuente del bot aquí: [GitHub - Liverbot](https://github.com/jooho000/Liverbot)")
 
+# ------------------------------------------
+# Test
+# ------------------------------------------
+@bot.command()
+async def test_channel(ctx):
+    """Verifica si el bot puede enviar mensajes en el canal de bienvenida."""
+    channel = bot.get_channel(WELCOME_CHANNEL_ID)
+    
+    if not channel:
+        await ctx.send(f"❌ No se encontró el canal de bienvenida con ID {WELCOME_CHANNEL_ID}.")
+        return
+
+    if not channel.permissions_for(channel.guild.me).send_messages:
+        await ctx.send(f"❌ No tengo permisos para enviar mensajes en {channel.name}.")
+        return
+
+    try:
+        await channel.send("✅ El bot tiene permisos para enviar mensajes en este canal de bienvenida.")
+        await ctx.send(f"✅ El bot ha enviado un mensaje al canal de bienvenida {channel.name}.")
+    except Exception as e:
+        await ctx.send(f"❌ Error enviando mensaje al canal de bienvenida: {e}")
 
 # ------------------------------------------
 # Iniciar el bot
