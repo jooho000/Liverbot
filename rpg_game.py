@@ -191,9 +191,14 @@ def handleAdventure(character):
         applied_effects["power"] = power_change
 
     if "items" in effects:
-        item = random.choice(effects["items"])
-        character.items.append(item)
-        applied_effects["items"] = item
+        for item in effects["items"]:
+            character.items.append(item["name"])
+            if "power" in item:
+                character.power += random.randint(item["power"][0], item["power"][1])
+            if "HP" in item:
+                character.HP = max(0, min(character.HP + random.randint(item["HP"][0], item["HP"][1]), character.maxHP))
+            if "EXP" in item:
+                character.EXP += random.randint(item["EXP"][0], item["EXP"][1])
 
     # Guardar cambios
     character.save()
