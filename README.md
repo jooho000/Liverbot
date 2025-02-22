@@ -1,16 +1,16 @@
-# 🏰 Bot RPG para Discord
-Un **bot de RPG totalmente interactivo** para Discord que permite a los jugadores **crear personajes, unirse a gremios, luchar contra enemigos y subir de nivel**.  
-Los gremios y personajes se **guardan de forma persistente**, por lo que el progreso nunca se perderá, incluso si el bot se reinicia.
+# 🏰 Liverbot
+Un **bot de RPG totalmente interactivo** para Discord que permite a los jugadores **crear personajes, unirse a Guilds, luchar contra enemigos y subir de nivel**.  
+Los Guilds y personajes se **guardan de forma persistente**, por lo que el progreso nunca se perderá, incluso si el bot se reinicia.
 
 ---
 
 ## **📌 Características**
 ✅ **Sistema de Personajes** → Crea, sube de nivel y guarda tu personaje  
-✅ **Sistema de Gremios** → Crea, únete y gestiona gremios  
+✅ **Sistema de Guilds** → Crea, únete y gestiona Guilds  
 ✅ **Batallas & Eventos** → Enfréntate a enemigos, descansa en posadas y gana recompensas  
 ✅ **Generador de Builds** → Obtén una build aleatoria de League of Legends  
 ✅ **Sistema de Bienvenida** → Genera tarjetas personalizadas para nuevos miembros  
-✅ **Datos Persistentes** → Los personajes y gremios se guardan en JSON  
+✅ **Datos Persistentes** → Los personajes y Guilds se guardan en JSON  
 ✅ **Juego Personalizable** → Modifica la lógica del juego fácilmente  
 
 ---
@@ -42,7 +42,7 @@ python3 bot.py
 ## **🎮 Guía de Comandos**
 El bot tiene cuatro sistemas principales:  
 **1️⃣ Sistema RPG** (Creación de personajes, Batallas, Descanso)  
-**2️⃣ Sistema de Gremios** (Creación, Gestión e Información de Gremios)  
+**2️⃣ Sistema de Guilds** (Creación, Gestión e Información de Guilds)  
 **3️⃣ Generador de Builds** (League of Legends)  
 **4️⃣ Sistema de Bienvenida** (Tarjetas de bienvenida personalizadas)  
 
@@ -58,7 +58,7 @@ El bot tiene cuatro sistemas principales:
 
 ---
 
-### **🏰 2️⃣ Comandos del Sistema de Gremios**
+### **🏰 2️⃣ Comandos del Sistema de Guilds**
 | Comando | Descripción |
 |---------|-------------|
 | `!guild <nombre_del_gremio> crear` | Crea un nuevo gremio |
@@ -106,13 +106,13 @@ O puedes obtenerlo haciendo clic derecho en el canal y seleccionando **"Copiar I
 ---
 
 ## **📂 Estructura de Archivos & Almacenamiento de Datos**
-El bot **guarda automáticamente todos los personajes, gremios y builds**, así como las imágenes de bienvenida.
+El bot **guarda automáticamente todos los personajes, Guilds y builds**, así como las imágenes de bienvenida.
 
 ```
 📦 RPG-Bot/
- ┣ 📂 data/               # Almacena los datos de personajes, gremios y builds
+ ┣ 📂 data/               # Almacena los datos de personajes, Guilds y builds
  ┃ ┣ 📜 characters.json   # Guarda las estadísticas de los personajes
- ┃ ┣ 📜 guilds.json       # Guarda la información de los gremios
+ ┃ ┣ 📜 guilds.json       # Guarda la información de los Guilds
  ┃ ┣ 📜 items.json        # Guarda los ítems de League of Legends
  ┃ ┣ 📜 welcome_background.jpg  # Imagen de fondo para la bienvenida
  ┣ 📜 bot.py              # Lógica principal del bot de Discord
@@ -127,7 +127,7 @@ El bot **guarda automáticamente todos los personajes, gremios y builds**, así 
 ✅ **Batallas PvP** → Peleas entre jugadores  
 ✅ **Sistema Avanzado de Inventario** → Equipar armas, intercambiar objetos  
 ✅ **Jefes & Mazmorras** → Enfréntate a enemigos épicos  
-✅ **Batallas de Gremios** → Compite contra otros gremios  
+✅ **Batallas de Guilds** → Compite contra otros Guilds  
 ✅ **Mejoras en el Generador de Builds** → Builds basadas en campeones específicos  
 
 ---
