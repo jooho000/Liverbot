@@ -44,7 +44,12 @@ pip install -r requirements.txt
 
 Si `requirements.txt` no existe, instala las librerías manualmente:
 ```sh
-pip install discord json requests pillow selenium
+pip install discord json requests pillow selenium python-dotenv
+```
+
+Si ejecutas el bot en un **servidor Linux sin entorno gráfico**, también instala:
+```sh
+sudo apt update && sudo apt install -y xvfb
 ```
 
 ---
@@ -65,8 +70,14 @@ set DISCORD_BOT_TOKEN=tu-token-aquí
 ---
 
 ### **4️⃣ Ejecutar el Bot**
+Si usas un entorno normal:
 ```sh
 python bot.py
+```
+
+Si estás en un servidor Linux sin entorno gráfico, usa:
+```sh
+xvfb-run python3 bot.py
 ```
 
 ---
@@ -114,8 +125,6 @@ El bot obtiene las **mejores composiciones de Teamfight Tactics (TFT)** desde Me
 | Comando | Descripción |
 |---------|-------------|
 | `!TFT` | Consulta las 5 mejores composiciones de TFT y sus campeones |
-
-Cuando se usa este comando, el bot recopila **las mejores composiciones meta de MetaTFT** y las muestra en un formato estructurado.
 
 Ejemplo de salida:
 ```
