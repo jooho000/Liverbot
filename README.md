@@ -112,6 +112,13 @@ El bot tiene cinco sistemas principales:
 
 ---
 
+### **🎲 Sistema de Aventura**
+| Comando | Descripción |
+|---------|-------------|
+| `!aventura <nombre_de_personaje>` | Enfréntate a eventos aleatorios: batallas, tesoros, maldiciones, etc. |
+
+---
+
 ### **⚔️ Comando de Generador de Builds**
 | Comando | Descripción |
 |---------|-------------|
@@ -135,6 +142,13 @@ Ejemplo de salida:
 🛡️ 2. Guardianes y Luchadores
 ⚔️ Campeones: Nasus, Sett, Jax, Garen, Riven, Warwick
 ```
+
+---
+
+### **📥 Descargar el Bot**
+| Comando | Descripción |
+|---------|-------------|
+| `!descargar` | Obtén el código fuente del bot en GitHub |
 
 ---
 
@@ -164,6 +178,7 @@ El bot **guarda automáticamente todos los personajes, gremios y builds**, así 
  ┃ ┣ 📜 guilds.json       # Guarda la información de los gremios
  ┃ ┣ 📜 items.json        # Guarda los ítems de League of Legends
  ┃ ┣ 📜 welcome_background.jpg  # Imagen de fondo para la bienvenida
+ ┃ ┣ 📜 events.json       # eventos para aventura
  ┣ 📜 bot.py              # Lógica principal del bot de Discord
  ┣ 📜 rpg_game.py         # Mecánicas del juego RPG
  ┣ 📜 scraper.py          # Scraping de TFT desde MetaTFT

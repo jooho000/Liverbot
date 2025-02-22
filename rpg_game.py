@@ -10,21 +10,22 @@ GUILD_FILE = DATA_FOLDER + "guilds.json"
 if not os.path.exists(DATA_FOLDER):
     os.makedirs(DATA_FOLDER)
 
-# ------------------------------- LOAD & SAVE CHARACTERS -------------------------------
-def load_characters():
-    """Load character data from a file or return an empty dictionary."""
-    if os.path.exists(CHARACTER_FILE):
-        with open(CHARACTER_FILE, "r") as file:
-            return json.load(file)
-    return {}
+# ------------------------------- LOAD & SAVE FUNCTIONS -------------------------------
+def load_data(file, default_value):
+    """Carga datos desde un archivo JSON o devuelve un valor predeterminado."""
+    if os.path.exists(file):
+        with open(file, "r") as f:
+            return json.load(f)
+    return default_value
 
-def save_characters():
-    """Save all characters to a JSON file."""
-    with open(CHARACTER_FILE, "w") as file:
-        json.dump(characters, file, indent=4)
+def save_data(file, data):
+    """Guarda datos en un archivo JSON."""
+    with open(file, "w") as f:
+        json.dump(data, f, indent=4)
 
-# Load characters when bot starts
-characters = load_characters()
+# Cargar personajes y gremios al iniciar
+characters = load_data(CHARACTER_FILE, {})
+guilds = load_data(GUILD_FILE, {})
 
 # ------------------------------- CHARACTER CLASS -------------------------------
 class Character:
@@ -47,34 +48,72 @@ class Character:
                 f"💰 Oro: {self.money}\n"
                 f"📈 EXP: {self.EXP}\n"
                 f"🎒 Items: {', '.join(self.items) if self.items else 'Ninguno'}\n"
-                f"🏰 Guild: {self.guild or 'Ninguna'}")
+                f"🏰 Gremio: {self.guild or 'Ninguno'}")
 
     def save(self):
-        """Save this character to the global character dictionary and file."""
+        """Guarda este personaje en el diccionario global y en archivo."""
         characters[self.name] = self.__dict__
-        save_characters()
+        save_data(CHARACTER_FILE, characters)
 
     @staticmethod
     def load(name):
-        """Load a character from stored data."""
+        """Carga un personaje desde el diccionario de datos."""
         if name in characters:
             data = characters[name]
             return Character(**data)
         return None
 
-# ------------------------------- GAME FUNCTIONS -------------------------------
+# ------------------------------- GUILD CLASS -------------------------------
+class Guild:
+    def __init__(self, name, members=None):
+        self.name = name
+        self.members = members if members else []
+
+    def add_member(self, player_name):
+        """Añade un miembro al gremio."""
+        if player_name not in self.members:
+            self.members.append(player_name)
+            self.save()
+    
+    def remove_member(self, player_name):
+        """Elimina un miembro del gremio."""
+        if player_name in self.members:
+            self.members.remove(player_name)
+            self.save()
+
+    def display_info(self):
+        """Muestra la información del gremio."""
+        return (f"🏰 **{self.name}**\n"
+                f"👥 Miembros: {', '.join(self.members) if self.members else 'Vacío'}")
+
+    def save(self):
+        """Guarda este gremio en el diccionario global y archivo."""
+        guilds[self.name] = self.__dict__
+        save_data(GUILD_FILE, guilds)
+
+    @staticmethod
+    def load(name):
+        """Carga un gremio desde los datos."""
+        if name in guilds:
+            data = guilds[name]
+            return Guild(**data)
+        return None
+
+# ------------------------------- RPG SYSTEM -------------------------------
 def createCharacter(name):
-    """Create a new character and save to file."""
+    """Crea un nuevo personaje."""
+    if name in characters:
+        return "❌ Ya existe un personaje con ese nombre."
+
     HP = random.randint(100, 1000)
     power = random.randint(1, 50)
     money = random.randint(100, 500)
-    maxHP = HP
-    new_character = Character(name, HP, power, money, maxHP)
-    new_character.save()
-    return new_character
+    character = Character(name, HP, power, money, HP)
+    character.save()
+    return f"✅ Personaje creado:\n{character.display_info()}"
 
 def handleRequest(message):
-    """Handle RPG commands from the bot."""
+    """Maneja comandos de RPG."""
     content = message.split(' ')
     name = content[1]
     command = content[2]
@@ -82,10 +121,7 @@ def handleRequest(message):
     character = Character.load(name)
 
     if command == "crear":
-        if character:
-            return "❌ Ya existe un personaje con ese nombre."
-        character = createCharacter(name)
-        return f"✅ Personaje creado:\n{character.display_info()}"
+        return createCharacter(name)
 
     if not character:
         return "❌ No hay personaje con ese nombre."
@@ -101,59 +137,147 @@ def handleRequest(message):
             return f"💤 Descansaste en la posada y recuperaste toda tu vida!\nOro restante: {character.money}"
         return "❌ No tienes suficiente oro."
 
+    if command == "aventura":
+        return handleAdventure(character)
+
     return "❌ Comando inválido."
 
+# ------------------------------- ADVENTURE SYSTEM -------------------------------
+def load_events():
+    """Carga la lista de eventos desde el archivo JSON."""
+    EVENT_FILE = "data/events.json"
+    
+    if not os.path.exists(EVENT_FILE):
+        print("❌ Error: El archivo de eventos no existe.")
+        return []
+
+    with open(EVENT_FILE, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+events = load_events()  # Cargar eventos al iniciar el bot
+
+def handleAdventure(character):
+    """Eventos aleatorios de aventura cargados desde un archivo JSON."""
+    if not events:
+        return "❌ No hay eventos de aventura disponibles."
+
+    event = random.choice(events)
+    
+    title = event["title"]
+    description = event["description"]
+    effects = event["effects"]
+
+    applied_effects = {}
+
+    # Aplicar efectos
+    if "HP" in effects:
+        hp_change = random.randint(effects["HP"][0], effects["HP"][1])
+        character.HP = max(0, min(character.HP + hp_change, character.maxHP))
+        applied_effects["HP"] = hp_change
+
+    if "money" in effects:
+        money_change = random.randint(effects["money"][0], effects["money"][1])
+        character.money = max(0, character.money + money_change)
+        applied_effects["money"] = money_change
+
+    if "EXP" in effects:
+        exp_change = random.randint(effects["EXP"][0], effects["EXP"][1])
+        character.EXP += exp_change
+        applied_effects["EXP"] = exp_change
+
+    if "power" in effects:
+        power_change = random.randint(effects["power"][0], effects["power"][1])
+        character.power += power_change
+        applied_effects["power"] = power_change
+
+    if "items" in effects:
+        item = random.choice(effects["items"])
+        character.items.append(item)
+        applied_effects["items"] = item
+
+    # Guardar cambios
+    character.save()
+
+    # Crear el mensaje de resultado
+    effect_texts = []
+    for key, value in applied_effects.items():
+        if key == "HP":
+            effect_texts.append(f"❤️ HP: {'+' if value > 0 else ''}{value}")
+        elif key == "money":
+            effect_texts.append(f"💰 Oro: {'+' if value > 0 else ''}{value}")
+        elif key == "EXP":
+            effect_texts.append(f"📈 EXP: {'+' if value > 0 else ''}{value}")
+        elif key == "power":
+            effect_texts.append(f"⚔️ Poder: {'+' if value > 0 else ''}{value}")
+        elif key == "items":
+            effect_texts.append(f"🎒 Item: {value}")
+
+    effect_text = "\n".join(effect_texts)
+
+    return f"🎲 **{title}**\n{description}\n\n📜 Resultado:\n{effect_text}\n\n{character.display_info()}"
+
 # ------------------------------- GUILD SYSTEM -------------------------------
-def load_guilds():
-    """Load guilds from file or return an empty dictionary."""
-    if os.path.exists(GUILD_FILE):
-        with open(GUILD_FILE, "r") as file:
-            return json.load(file)
-    return {}
-
-def save_guilds():
-    """Save the current guild dictionary to a file."""
-    with open(GUILD_FILE, "w") as file:
-        json.dump(guilds, file, indent=4)
-
-# Load guilds when bot starts
-guilds = load_guilds()
-
 def handle_guild_request(message):
-    """Handle Guild system commands."""
+    """Maneja comandos de gremios."""
     content = message.split(' ')
-    name = content[1]
     action = content[2]
 
     if action == "crear":
-        if name in guilds:
-            return "❌ Esa guild ya existe."
-        guilds[name] = []
-        save_guilds()
-        return f"✅ La guild {name} ha sido creada!"
+        guild_name = content[1]
+        if guild_name in guilds:
+            return f"❌ El gremio **{guild_name}** ya existe."
+
+        new_guild = Guild(guild_name)
+        new_guild.save()
+        return f"✅ Se ha creado el gremio **{guild_name}**."
 
     if action == "unirse":
+        player_name = content[1]
         guild_name = content[3]
-        if guild_name not in guilds:
-            return "❌ Esa guild no existe."
-        if name in guilds[guild_name]:
-            return f"❌ {name} ya está en la guild {guild_name}."
-        guilds[guild_name].append(name)
-        save_guilds()
-        return f"✅ {name} se ha unido a la guild {guild_name}!"
+
+        player = Character.load(player_name)
+        guild = Guild.load(guild_name)
+
+        if not player:
+            return "❌ No existe un personaje con ese nombre."
+        if not guild:
+            return "❌ No existe un gremio con ese nombre."
+        if player.guild:
+            return f"❌ Ya estás en **{player.guild}**. Debes salir antes de unirte a otro."
+
+        guild.add_member(player.name)
+        player.guild = guild_name
+        player.save()
+
+        return f"✅ **{player_name}** se ha unido al gremio **{guild_name}**."
 
     if action == "salir":
-        for guild, members in guilds.items():
-            if name in members:
-                members.remove(name)
-                save_guilds()
-                return f"✅ {name} ha salido de la guild {guild}."
-        return "❌ No estás en ninguna guild."
+        player_name = content[1]
+        player = Character.load(player_name)
+
+        if not player:
+            return "❌ No existe un personaje con ese nombre."
+        if not player.guild:
+            return "❌ No estás en ningún gremio."
+
+        guild = Guild.load(player.guild)
+        if not guild:
+            return "❌ No se encontró el gremio."
+
+        guild.remove_member(player_name)
+        player.guild = None
+        player.save()
+
+        return f"🚪 **{player_name}** ha salido del gremio."
 
     if action == "info":
-        guild_name = content[3]
-        if guild_name not in guilds:
-            return "❌ Esa guild no existe."
-        return f"🏰 **Guild: {guild_name}**\nMiembros: {', '.join(guilds[guild_name])}"
+        guild_name = content[1]
+        guild = Guild.load(guild_name)
 
-    return "❌ Comando de guild inválido."
+        if not guild:
+            return "❌ No existe un gremio con ese nombre."
+
+        return guild.display_info()
+
+    return "❌ Comando de gremio inválido."
+
