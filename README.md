@@ -8,6 +8,7 @@ Los gremios y personajes se **guardan de forma persistente**, por lo que el prog
 ✅ **Sistema de Personajes** → Crea, sube de nivel y guarda tu personaje  
 ✅ **Sistema de Gremios** → Crea, únete y gestiona gremios  
 ✅ **Batallas & Eventos** → Enfréntate a enemigos, descansa en posadas y gana recompensas  
+✅ **Generador de Builds** → Obtén una build aleatoria de League of Legends  
 ✅ **Datos Persistentes** → Los personajes y gremios se guardan en JSON  
 ✅ **Juego Personalizable** → Modifica la lógica del juego fácilmente  
 
@@ -38,9 +39,10 @@ python3 bot.py
 ---
 
 ## **🎮 Guía de Comandos**
-El bot tiene dos sistemas principales:  
+El bot tiene tres sistemas principales:  
 **1️⃣ Sistema RPG** (Creación de personajes, Batallas, Descanso)  
 **2️⃣ Sistema de Gremios** (Creación, Gestión e Información de Gremios)  
+**3️⃣ Generador de Builds** (League of Legends)  
 
 ---
 
@@ -80,14 +82,37 @@ El bot tiene dos sistemas principales:
 
 ---
 
+### **⚔️ 3️⃣ Comando de Generador de Builds**
+| Comando | Descripción |
+|---------|-------------|
+| `!build` | Genera una build aleatoria de League of Legends |
+
+**💡 Ejemplo de Uso:**
+```sh
+!build
+```
+**Respuesta del Bot:**
+```
+🛡️ Build Aleatoria para League of Legends:
+- Fuerza de la Naturaleza
+- El Tormento de Liandry
+- Filo de la Noche
+- Arcoescudo Inmortal
+- Jak'Sho, el Proteico
+- Botas de Mercurio
+```
+
+---
+
 ## **📂 Estructura de Archivos & Almacenamiento de Datos**
 El bot **guarda automáticamente todos los personajes y gremios** para asegurarse de que **el progreso no se pierda** si el bot se reinicia.
 
 ```
 📦 RPG-Bot/
- ┣ 📂 data/               # Almacena los datos de personajes y gremios
+ ┣ 📂 data/               # Almacena los datos de personajes, gremios y builds
  ┃ ┣ 📜 characters.json   # Guarda las estadísticas de los personajes
  ┃ ┣ 📜 guilds.json       # Guarda la información de los gremios
+ ┃ ┣ 📜 items.json        # Guarda los ítems de League of Legends
  ┣ 📜 bot.py              # Lógica principal del bot de Discord
  ┣ 📜 rpg_game.py         # Mecánicas del juego RPG
  ┣ 📜 README.md           # Instrucciones y guía de uso
@@ -97,8 +122,9 @@ El bot **guarda automáticamente todos los personajes y gremios** para asegurars
 |--------------|---------|
 | Personajes | `data/characters.json` |
 | Gremios | `data/guilds.json` |
+| Ítems de LoL | `data/items.json` |
 
-Si el bot **se detiene**, todos los personajes y gremios **seguirán guardados**.
+Si el bot **se detiene**, todos los personajes, gremios y builds **seguirán guardados**.
 
 ---
 
@@ -129,18 +155,19 @@ Si el bot **se detiene**, todos los personajes y gremios **seguirán guardados**
 - ⚔️ **Peleas contra un goblin!**
 - 🔥 **Te encuentras con un jefe poderoso!**
 
-### **3️⃣ Unirse a un Gremio**
+### **3️⃣ Generar una Build de LoL**
 ```sh
-!guild Dragones crear
-!guild MiPersonaje unirse Dragones
-!guild Dragones info
+!build
 ```
 **Respuesta del Bot:**
 ```
-✅ El gremio Dragones ha sido creado!
-✅ MiPersonaje se ha unido al gremio Dragones!
-🏰 Gremio: Dragones
-Miembros: MiPersonaje
+🛡️ Build Aleatoria para League of Legends:
+- Fuerza de la Naturaleza
+- El Tormento de Liandry
+- Filo de la Noche
+- Arcoescudo Inmortal
+- Jak'Sho, el Proteico
+- Botas de Mercurio
 ```
 
 ---
@@ -150,6 +177,7 @@ Miembros: MiPersonaje
 ✅ **Sistema Avanzado de Inventario** → Equipar armas, intercambiar objetos  
 ✅ **Jefes & Mazmorras** → Enfréntate a enemigos épicos  
 ✅ **Batallas de Gremios** → Compite contra otros gremios  
+✅ **Mejoras en el Generador de Builds** → Builds basadas en campeones específicos  
 
 ---
 
