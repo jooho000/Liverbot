@@ -67,20 +67,27 @@ async def ayuda(ctx):
     """Displays all available commands in Spanish"""
     help_message = (
         "**🛠️ Bot RPG - Lista de Comandos**\n\n"
+
         "**📜 Comandos de RPG:**\n"
         "`!rpg <nombre_de_personaje> crear` - 🏗️ Crea un nuevo personaje.\n"
         "`!rpg <nombre_de_personaje> stats` - 📊 Muestra las estadísticas del personaje.\n"
         "`!rpg <nombre_de_personaje> aventura` - ⚔️ Ve de aventura y enfréntate a enemigos o encuentra objetos.\n"
         "`!rpg <nombre_de_personaje> descansar` - 🏨 Descansa en una posada para recuperar HP (cuesta oro).\n\n"
         
-        "**🏰 Comandos de Guilds:**\n"
+        "**🏰 Comandos de Gremios:**\n"
         "`!guild <nombre_del_gremio> crear` - 🏰 Crea un nuevo gremio.\n"
         "`!guild <nombre_de_personaje> unirse <nombre_del_gremio>` - 🤝 Únete a un gremio existente.\n"
         "`!guild <nombre_de_personaje> salir` - 🚪 Sal de un gremio.\n"
         "`!guild <nombre_del_gremio> info` - 📜 Muestra la lista de miembros del gremio.\n\n"
 
+        "**⚔️ Generador de Builds (League of Legends):**\n"
+        "`!build` - 🎮 Genera una build aleatoria de League of Legends.\n\n"
+
+        "**👋 Sistema de Bienvenida:**\n"
+        "`!test_channel` - ⚙️ verificar canal de bienvenida (requiere permisos de admin).\n\n"
+
         "**🔹 Comandos Adicionales:**\n"
-        "`!help` - ℹ️ Muestra esta lista de comandos en español.\n"
+        "`!ayuda` - ℹ️ Muestra esta lista de comandos.\n"
     )
     await ctx.send(help_message)
 

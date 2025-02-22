@@ -87,10 +87,10 @@ _(Imagen personalizada con su avatar y un fondo de bienvenida)_
 #### **🔹 Comando de Prueba**
 Puedes probar la función de bienvenida con:
 ```sh
-!test_welcome
+!test_channel
 ```
 **Respuesta del Bot:**  
-_(Envía una tarjeta de bienvenida con una imagen de prueba)_
+_(Envía un mensaje al canal de bienvenida)_
 
 #### **📌 Configuración del Canal de Bienvenida**
 Para que el bot funcione correctamente, asegúrate de que:
