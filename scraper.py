@@ -20,6 +20,7 @@ chrome_options.add_argument("--headless")  # Use headless mode since no GUI is a
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-gpu")  # Important for reducing resource usage
+chrome_options.add_argument("window-size=1280x1024")  # Limit the window size to save resources
 chrome_options.add_argument("--remote-debugging-port=9222")  # Optional: Helps with debugging
 chrome_options.add_argument("--disable-software-rasterizer")  # Further reduces resource use
 chrome_options.add_argument("--disable-extensions")  # Disables unnecessary extensions
@@ -33,7 +34,7 @@ service = Service(CHROMEDRIVER_PATH)
 # Initialize the WebDriver
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
-def scrape_comps(limit=5):
+def scrape_comps(limit=3):
     try:
         driver.get("https://www.metatft.com/comps")
         wait = WebDriverWait(driver, 20)  # Increased wait time
@@ -42,11 +43,11 @@ def scrape_comps(limit=5):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)  # Give time for the page to load more data
 
-        # Updated the way to find elements using By.CLASS_NAME
-        comp_elements = driver.find_elements(By.CLASS_NAME, "Comp_Title")
+        # Update the way to find elements using By.CLASS_NAME
+        comp_elements = driver.find_elements(By.CLASS_NAME, "Comp_Title")  # Correct method in Selenium 4
         compositions = []
 
-        for comp in comp_elements[:limit]:
+        for comp in comp_elements[:limit]:  # Only scrape 'limit' number of elements
             comp_name = comp.text.strip()
             comp_container = comp.find_element(By.XPATH, "./ancestor::div[contains(@class, 'CompRowWrapper')]")
 
@@ -67,5 +68,5 @@ def scrape_comps(limit=5):
 
 # Run the scraping function
 if __name__ == "__main__":
-    result = scrape_comps(limit=5)
+    result = scrape_comps(limit=3)  # Limit to 3
     print(result)
