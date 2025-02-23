@@ -1,12 +1,18 @@
 FROM python:3.9-slim
 
-# Install dependencies for headless Chromium and ChromeDriver
+# Install dependencies for Chromium and ChromeDriver
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
     unzip \
-    chromium \
-    chromium-driver \
+    ca-certificates \
+    gnupg \
+    && curl -sS https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+    && apt-get update \
+    && apt-get install -y \
+    google-chrome-stable \
+    chromedriver \
     libgdk-pixbuf2.0-0 \
     libxss1 \
     libappindicator3-1 \
@@ -19,7 +25,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*  # Remove cached package lists to reduce image size
 
 # Set environment variables for Chrome and ChromeDriver
-ENV CHROME_BIN=/usr/bin/chromium
+ENV CHROME_BIN=/usr/bin/google-chrome-stable
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
 # Install Python dependencies
