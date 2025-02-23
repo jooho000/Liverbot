@@ -1,4 +1,3 @@
-import os
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -6,10 +5,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
 
-# Ensure paths are set correctly using environment variables (set in Dockerfile)
-CHROME_PATH = os.getenv("CHROME_BIN", "/usr/bin/google-chrome-stable")
-CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")
+# Auto-detect Chromium and ChromeDriver paths in Docker environment
+CHROME_PATH = os.getenv("CHROME_BIN", "/usr/bin/google-chrome-stable")  # Default to google-chrome-stable if not set
+CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")  # Default to chromedriver if not set
 
 if not CHROME_PATH or not CHROMEDRIVER_PATH:
     raise FileNotFoundError("Chromium or ChromeDriver not found in the expected paths.")
@@ -37,14 +37,15 @@ def scrape_comps(limit=5):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)  # Give time for the page to load more data
 
-        comp_elements = driver.find_elements_by_class_name("Comp_Title")
+        # Update the way to find elements using By.CLASS_NAME
+        comp_elements = driver.find_elements(By.CLASS_NAME, "Comp_Title")  # Correct method in Selenium 4
         compositions = []
 
         for comp in comp_elements[:limit]:
             comp_name = comp.text.strip()
-            comp_container = comp.find_element_by_xpath("./ancestor::div[contains(@class, 'CompRowWrapper')]")
+            comp_container = comp.find_element(By.XPATH, "./ancestor::div[contains(@class, 'CompRowWrapper')]")
 
-            unit_elements = comp_container.find_elements_by_class_name("UnitNames")
+            unit_elements = comp_container.find_elements(By.CLASS_NAME, "UnitNames")  # Correct method in Selenium 4
             units = [unit.text.strip() for unit in unit_elements if unit.text.strip()]
 
             compositions.append({
