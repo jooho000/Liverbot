@@ -177,6 +177,7 @@ async def build(ctx):
 @bot.command()
 async def TFT(ctx):
     """Obtiene las mejores composiciones de TFT y las envía en un embed."""
+    """
     try:
         comps_data = scrape_comps(limit=5)
 
@@ -194,6 +195,8 @@ async def TFT(ctx):
         await ctx.send(embed=embed)
     except Exception as e:
         await ctx.send(f"❌ Error obteniendo composiciones de TFT: {e}")
+    """
+    ctx.send("descativado por ahora, el server del bot es una mierda")
 
 # ------------------------------------------
 # Descargar
