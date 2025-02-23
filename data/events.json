@@ -1,0 +1,164 @@
+[
+    {
+        "title": "🏆 ¡Victoria!",
+        "description": "Derrotaste a un bandido y encontraste oro!",
+        "effects": {"money": [50, 200], "EXP": [10, 30]}
+    },
+    {
+        "title": "🦴 Ataque de bestias",
+        "description": "Lobos te atacaron, lograste escapar con heridas.",
+        "effects": {"HP": [-50, -10], "EXP": [5, 15]}
+    },
+    {
+        "title": "📜 Hallazgo Misterioso",
+        "description": "Encontraste un antiguo pergamino con conocimientos secretos.",
+        "effects": {"EXP": [20, 50]}
+    },
+    {
+        "title": "⚔️ Duelo de Guerreros",
+        "description": "Luchaste contra un caballero errante y aprendiste nuevas técnicas.",
+        "effects": {"EXP": [15, 40], "power": [1, 5]}
+    },
+    {
+        "title": "💰 Tesoro Escondido",
+        "description": "Encontraste una bolsa de oro enterrada en el bosque!",
+        "effects": {"money": [50, 150]}
+    },
+    {
+        "title": "🎁 Cofre Misterioso",
+        "description": "Has encontrado un cofre antiguo lleno de tesoros.",
+        "effects": {
+            "money": [100, 300],
+            "items": [
+                {"name": "Espada Legendaria", "power": [5, 15]},
+                {"name": "Armadura Antigua", "HP": [50, 100]},
+                {"name": "Amuleto Mágico", "EXP": [10, 20]}
+            ]
+        }
+    },
+    {
+        "title": "🔥 Prueba de Fuego",
+        "description": "Caminaste sobre brasas ardientes y te fortaleciste.",
+        "effects": {"HP": [-20, -5], "power": [2, 6]}
+    },
+    {
+        "title": "🧙 Encuentro con un Mago",
+        "description": "Un mago te enseñó un hechizo antiguo.",
+        "effects": {"EXP": [30, 60], "power": [1, 4]}
+    },
+    {
+        "title": "👺 Asalto de Bandidos",
+        "description": "Fuiste emboscado y te robaron algo de oro.",
+        "effects": {"money": [-100, -50]}
+    },
+    {
+        "title": "🐉 Lucha contra un Dragón",
+        "description": "Un dragón te atacó, pero lograste escapar con heridas.",
+        "effects": {"HP": [-100, -50], "money": [-80, -20]}
+    },
+    {
+        "title": "🔮 Profecía Oscura",
+        "description": "Una bruja te ha advertido sobre un peligro inminente.",
+        "effects": {"EXP": [40, 80]}
+    },
+    {
+        "title": "🦷 Maldición de la Cripta",
+        "description": "Una energía oscura te ha debilitado.",
+        "effects": {"HP": [-60, -20], "power": [-3, -1]}
+    },
+    {
+        "title": "🛡️ Fortaleza Abandonada",
+        "description": "Descubriste una antigua fortaleza con artefactos místicos.",
+        "effects": {"items": [
+            {"name": "Armadura Mística", "HP": [100, 200], "power": [5, 10]}
+        ]}
+    },
+    {
+        "title": "💎 Mina de Cristales",
+        "description": "Hallaste cristales mágicos en una cueva y los vendiste.",
+        "effects": {"money": [150, 400]}
+    },
+    {
+        "title": "🗡️ Espada Maldita",
+        "description": "Has encontrado una espada con poderes oscuros.",
+        "effects": {"items": [
+            {"name": "Espada Maldita", "power": [10, 20], "HP": [-10, -30]}
+        ]}
+    },
+    {
+        "title": "🦄 Encuentro con un Unicornio",
+        "description": "Un unicornio apareció y te bendijo con energía mágica.",
+        "effects": {"HP": [50, 100], "power": [5, 10]}
+    },
+    {
+        "title": "🎭 Mercado Secreto",
+        "description": "Has encontrado un mercader en las sombras que vendía objetos raros.",
+        "effects": {"items": [
+            {"name": "Daga Envenenada", "power": [5, 10], "HP": [-5, -10]},
+            {"name": "Capa de Sigilo", "power": [2, 6]},
+            {"name": "Anillo de Velocidad", "power": [1, 3]}
+        ]}
+    },
+    {
+        "title": "⚡ Descarga Mágica",
+        "description": "Un rayo de magia inestable golpeó tu cuerpo.",
+        "effects": {"HP": [-40, -20], "power": [3, 8]}
+    },
+    {
+        "title": "🔑 Llave Antigua",
+        "description": "Encontraste una llave dorada con inscripciones extrañas.",
+        "effects": {"items": [
+            {"name": "Llave Misteriosa", "power": [0, 0], "EXP": [10, 25]}
+        ]}
+    },
+    {
+        "title": "🌀 Portal Dimensional",
+        "description": "Caíste en un portal y viajaste a otro lugar desconocido.",
+        "effects": {"HP": [-50, -10], "money": [50, 150]}
+    },
+    {
+        "title": "🗿 Estatua de Piedra",
+        "description": "Tocaste una estatua mágica y sientes que tu cuerpo ha cambiado.",
+        "effects": {"power": [1, 5]}
+    },
+    {
+        "title": "🏹 Entrenamiento Rigurososo",
+        "description": "Un instructor de combate te enseñó nuevas tácticas de batalla.",
+        "effects": {"power": [3, 6], "EXP": [20, 50]}
+    },
+    {
+        "title": "⚔️ Arena de Combate",
+        "description": "Participaste en un torneo de guerreros y lograste ganar un premio.",
+        "effects": {"money": [100, 300], "EXP": [25, 70]}
+    },
+    {
+        "title": "💀 Ruinas Fantasmales",
+        "description": "Exploraste unas ruinas y fuiste perseguido por espíritus oscuros.",
+        "effects": {"HP": [-50, -20], "items": ["Amuleto de Protección"]}
+    },
+    {
+        "title": "🏰 Asedio a la Ciudad",
+        "description": "La ciudad fue atacada y tuviste que defenderla.",
+        "effects": {"EXP": [40, 80], "power": [2, 5]}
+    },
+    {
+        "title": "☠️ Tóxicos Peligrosos",
+        "description": "Un gas venenoso te debilitó en el bosque.",
+        "effects": {"HP": [-30, -10], "power": [-2, -1]}
+    },
+    {
+        "title": "🧞 Genio del Desierto",
+        "description": "Encontraste una lámpara mágica con un genio en su interior.",
+        "effects": {"money": [300, 600], "items": ["Poción de Sabiduría"]}
+    },
+    {
+        "title": "🍄 Hongos Curativos",
+        "description": "Comiste hongos raros y te sientes renovado.",
+        "effects": {"HP": [20, 80]}
+    },
+    {
+        "title": "🎠 Ilusión Extraña",
+        "description": "Crees haber visto algo mágico, pero desapareció de inmediato.",
+        "effects": {"EXP": [5, 10]}
+    }
+]
