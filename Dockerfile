@@ -1,6 +1,9 @@
 # Use the official Selenium image with Chrome pre-installed
 FROM selenium/standalone-chrome:latest
 
+# Ensure we are running as the root user
+USER root
+
 # Install required system dependencies for Python packages
 RUN apt-get update && apt-get install -y \
     build-essential \
