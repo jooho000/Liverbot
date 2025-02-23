@@ -1,0 +1,14 @@
+name: Restart Railway Bot
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Runs every day at midnight UTC
+
+jobs:
+  restart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Railway Deploy
+        run: |
+          curl -X POST "https://railway.app/api/v1/projects/${{ secrets.RAILWAY_PROJECT_ID }}/deploy" \
+          -H "Authorization: Bearer ${{ secrets.RAILWAY_API_KEY }}"
