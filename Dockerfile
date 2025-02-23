@@ -4,12 +4,32 @@ FROM selenium/standalone-chrome:latest
 # Ensure we are running as the root user
 USER root
 
-# Set up a virtual environment for Python
+# Install required system dependencies for Python packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    wget \
+    curl \
+    unzip \
+    libgdk-pixbuf2.0-0 \
+    libxss1 \
+    libappindicator3-1 \
+    libindicator7 \
+    libnspr4 \
+    libnss3 \
+    fonts-liberation \
+    python3-venv \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*  # Remove cached package lists to reduce image size
+
+# Set up a virtual environment
 RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 
 # Install Python dependencies in the virtual environment
-COPY requirements.txt .  # Copy requirements file first to leverage Docker caching
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the correct Chrome binary path and ChromeDriver path for Selenium
