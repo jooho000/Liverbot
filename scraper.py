@@ -1,40 +1,34 @@
+import os
+import shutil
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-import os
-import shutil
 
-# Auto-detect Chromium and ChromeDriver paths
-CHROME_PATH = shutil.which("chromium") or "/run/current-system/sw/bin/chromium"
-CHROMEDRIVER_PATH = shutil.which("chromedriver")
+# Auto-detect Chromium and ChromeDriver paths in Docker environment
+CHROME_PATH = os.getenv("CHROME_BIN", "/usr/bin/chromium")  # Using environment variable
+CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH", "/usr/bin/chromedriver")  # Using environment variable
 
-if not CHROME_PATH:
-    raise FileNotFoundError("Chromium not found. Run `which chromium` in Replit shell to find its correct path.")
+if not CHROME_PATH or not CHROMEDRIVER_PATH:
+    raise FileNotFoundError("Chromium or ChromeDriver not found in the expected paths.")
 
-if not CHROMEDRIVER_PATH:
-    raise FileNotFoundError("ChromeDriver not found. Run `nix-env -iA nixpkgs.chromedriver` to install it.")
+# Setup Selenium with Chromium
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.binary_location = CHROME_PATH
 
-# Ensure ChromeDriver is executable
-if not os.access(CHROMEDRIVER_PATH, os.X_OK):
-    os.chmod(CHROMEDRIVER_PATH, 0o755)
+service = Service(CHROMEDRIVER_PATH)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
 def scrape_comps(limit=5):
     try:
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.add_argument("--disable-gpu")
-        chrome_options.binary_location = CHROME_PATH
-
-        service = Service(CHROMEDRIVER_PATH)
-        driver = webdriver.Chrome(service=service, options=chrome_options)
         driver.get("https://www.metatft.com/comps")
-
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.ID, "CompListContainer")))
 
@@ -61,7 +55,6 @@ def scrape_comps(limit=5):
 
         driver.quit()
         return compositions if compositions else [{"error": "No compositions found."}]
-
     except Exception as e:
         return [{"error": str(e)}]
 
