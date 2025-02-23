@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
     libnspr4 \
     libnss3 \
     fonts-liberation \
-    libasound2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*  # Remove cached package lists to reduce image size
 
