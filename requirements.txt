@@ -3,3 +3,5 @@ requests
 pillow
 selenium
 python-dotenv
+webdriver-manager
+asyncio

@@ -102,7 +102,6 @@ async def ayuda(ctx):
         "`!rpg <nombre_personaje> crear` - 🏗️ Crea un nuevo personaje.\n"
         "`!rpg <nombre_personaje> stats` - 📊 Muestra las estadísticas del personaje.\n"
         "`!rpg <nombre_personaje> descansar` - 🏨 Descansa en una posada para recuperar HP (cuesta 50 de oro).\n"
-        "`!aventura <nombre_personaje>` - ⚔️ Inicia una aventura con eventos aleatorios.\n\n"
 
         "**🏰 Comandos de Gremios:**\n"
         "`!guild <nombre_gremio> crear` - 🏰 Crea un nuevo gremio.\n"
