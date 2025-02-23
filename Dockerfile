@@ -1,4 +1,3 @@
-# Use a lightweight Python image
 FROM python:3.9-slim
 
 # Install dependencies for headless Chromium and ChromeDriver
@@ -16,7 +15,8 @@ RUN apt-get update && apt-get install -y \
     libnss3 \
     fonts-liberation \
     libasound2 \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*  # Remove cached package lists to reduce image size
 
 # Set environment variables for Chrome and ChromeDriver
 ENV CHROME_BIN=/usr/bin/chromium
@@ -30,4 +30,5 @@ RUN pip install -r requirements.txt
 COPY . /app
 WORKDIR /app
 
+# Run the bot with the correct filename
 CMD ["python", "bot.py"]
