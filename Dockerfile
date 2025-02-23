@@ -32,6 +32,10 @@ ENV PATH="/venv/bin:$PATH"
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Set the correct Chrome binary path and ChromeDriver path for Selenium
+ENV CHROME_BIN=/usr/bin/google-chrome-stable
+ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+
 # Copy the project files to the container
 COPY . /app
 WORKDIR /app
@@ -39,5 +43,5 @@ WORKDIR /app
 # Expose the appropriate port (Flask default is 5000)
 EXPOSE 5000
 
-# Use python3 to run the bot (ensure your bot's script is named `bot.py`)
+# Run the bot (ensure your bot's script is named `bot.py`)
 CMD ["python3", "bot.py"]
