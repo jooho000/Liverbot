@@ -20,10 +20,15 @@ RUN apt-get update && apt-get install -y \
     libnspr4 \
     libnss3 \
     fonts-liberation \
+    python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*  # Remove cached package lists to reduce image size
 
-# Install Python dependencies
+# Set up a virtual environment
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Install Python dependencies in the virtual environment
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -34,5 +39,5 @@ WORKDIR /app
 # Expose the appropriate port (Flask default is 5000)
 EXPOSE 5000
 
-# Run the bot (ensure your bot's script is named `bot.py`)
-CMD ["python", "bot.py"]
+# Use python3 to run the bot (ensure your bot's script is named `bot.py`)
+CMD ["python3", "bot.py"]
