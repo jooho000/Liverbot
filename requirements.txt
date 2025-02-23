@@ -5,3 +5,5 @@ selenium
 python-dotenv
 webdriver-manager
 asyncio
+discord-py
+flask

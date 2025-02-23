@@ -6,6 +6,7 @@ from discord.ext import commands
 from scraper import scrape_comps
 from rpg_game import handleRequest, handle_guild_request
 from image_generator import create_welcome_image
+from flask import Flask
 
 # Cargar el token del bot desde las variables de entorno
 DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
@@ -18,12 +19,21 @@ intents.message_content = True  # Necesario para leer mensajes
 intents.members = True  # Necesario para detectar nuevos miembros
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+# Inicializar Flask app
+app = Flask(__name__)
+
 # Obtener el ID del canal de bienvenida desde variables de entorno
 WELCOME_CHANNEL_ID = int(os.getenv("WELCOME_CHANNEL_ID", "0"))
 
 # ------------------------------------------
 # Evento: Cuando el bot está listo
 # ------------------------------------------
+
+# Crear un endpoint para mantener el bot activo
+@app.route('/')
+def home():
+    return "Bot is running!"
+
 @bot.event
 async def on_ready():
     """Se ejecuta cuando el bot está en línea."""
@@ -216,6 +226,15 @@ async def test_channel(ctx):
         await ctx.send(f"❌ Error enviando mensaje al canal de bienvenida: {e}")
 
 # ------------------------------------------
-# Iniciar el bot
+# Iniciar el bot en un servidor web Flask
 # ------------------------------------------
-bot.run(DISCORD_TOKEN)
+def run_flask():
+    """Función para iniciar el servidor web de Flask para mantener el bot activo."""
+    app.run(host="0.0.0.0", port=3000)  # Esto permite que el bot se mantenga corriendo en Replit
+
+# Iniciar el bot y el servidor Flask
+if __name__ == "__main__":
+    from threading import Thread
+    t = Thread(target=run_flask)
+    t.start()  # Inicia el servidor Flask en un hilo separado
+    bot.run(DISCORD_TOKEN)  # Corre el bot de Discord
