@@ -233,7 +233,7 @@ async def test_channel(ctx):
 # ------------------------------------------
 def run_flask():
     """Función para iniciar el servidor web de Flask para mantener el bot activo."""
-    app.run(host="0.0.0.0", port=3000)  # Esto permite que el bot se mantenga corriendo en Replit
+    app.run(host="0.0.0.0", port=8080)
 
 # Iniciar el bot y el servidor Flask
 if __name__ == "__main__":
